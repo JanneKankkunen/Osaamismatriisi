@@ -1,0 +1,27 @@
+USE osaamismatriisi;
+
+CREATE TABLE kayttaja(
+    kayttajaID INT NOT NULL AUTO_INCREMENT,
+    kayttajaTunnus VARCHAR(20),
+    salasana VARCHAR(15),
+    PRIMARY KEY (kayttajaID)
+);
+
+
+INSERT INTO kayttaja (kayttajaTunnus, salasana)
+VALUES ("ReipasReijo54","aavikkoKettu2");
+
+INSERT INTO kayttaja (kayttajaTunnus, salasana)
+VALUES ("Duke333","salasana");
+
+INSERT INTO kayttaja (kayttajaTunnus, salasana)
+VALUES ("Kaheli36","1234");
+
+INSERT INTO kayttaja (kayttajaTunnus, salasana)
+VALUES ("YyterLover","hiekkaranta1");
+
+INSERT INTO kayttaja (kayttajaTunnus, salasana)
+VALUES ("Tsuffel","kalvo2");
+
+
+

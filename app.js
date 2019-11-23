@@ -1,7 +1,7 @@
-const express = require('express')
 const connection = require('./connection')
+const express = require('express')
+var session = require('express-session')
 const bodyParser = require('body-parser')
-const cors = require('cors')
 
 
 const app = express()
@@ -10,12 +10,55 @@ const port = process.env.PORT || 3002
 app.use(express.json())
 
 
+
+// app.use("/static", express.static('./static/'))
+
+app.use(session({
+    secret: 'osMatrice',
+    resave: true,
+    saveUninitialized: true
+}));
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors())
+app.post('/auth', (request, response) => {
+	var username = request.body.username;
+    var password = request.body.password;
+	if (username && password) {
+        const kysely = ' SELECT * FROM kayttaja WHERE kayttajaTunnus="'+username+'" AND salasana= "'+password+'"'
+        console.log(kysely)
+		connection.query(kysely, (error, results) => {
+            console.log(results);
+            // if(!results){
+            //     response.send("Couldnt fetch results from DB")
+            // }
+            if (results.length > 0) {
+				request.session.loggedin = true;
+				request.session.username = username;
+				response.redirect('/home');
+			} else {
+				response.send('Incorrect Username and/or Password!');
+			}			
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
 
-app.use("/static", express.static('./static/'))
+app.get('/home',(request,response) => {
+
+    if(request.session.loggedin){
+        response.send('Welcome back, '+ request.session.username + '!')
+        response.sendFile(__dirname+"/index.html")
+    }else{
+        response.send('Please login to view this page!')
+    }
+    response.end()
+})
 
 app.get('/oppilaat',(req,res) => {
 
@@ -61,8 +104,10 @@ app.get('/oppilaanSuoritukset/:opiskelijaID',(req,res) => {
 
 })
 
+
+
 app.get('/',(req,res) => {
-    res.sendFile(__dirname+'/index.html')
+    res.sendFile(__dirname+'/login.html')
 })
 
 
