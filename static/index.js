@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 
+
     var naytaOpiskelijanSuoritukset = () => {
         var opiskelijaID = $("#oppilaanID").val()
             if(opiskelijaID){

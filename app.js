@@ -4,14 +4,17 @@ var session = require('express-session')
 const bodyParser = require('body-parser')
 
 
+
 const app = express()
 const port = process.env.PORT || 3002
+
+app.set("view engine","hbs")
 
 app.use(express.json())
 
 
 
-// app.use("/static", express.static('./static/'))
+app.use("/static", express.static('./static/'))
 
 app.use(session({
     secret: 'osMatrice',
@@ -30,18 +33,14 @@ app.post('/auth', (request, response) => {
         const kysely = ' SELECT * FROM kayttaja WHERE kayttajaTunnus="'+username+'" AND salasana= "'+password+'"'
         console.log(kysely)
 		connection.query(kysely, (error, results) => {
-            console.log(results);
-            // if(!results){
-            //     response.send("Couldnt fetch results from DB")
-            // }
             if (results.length > 0) {
 				request.session.loggedin = true;
 				request.session.username = username;
 				response.redirect('/home');
-			} else {
+                
+            } else {
 				response.send('Incorrect Username and/or Password!');
-			}			
-			response.end();
+            }
 		});
 	} else {
 		response.send('Please enter Username and Password!');
@@ -52,13 +51,14 @@ app.post('/auth', (request, response) => {
 app.get('/home',(request,response) => {
 
     if(request.session.loggedin){
-        response.send('Welcome back, '+ request.session.username + '!')
-        response.sendFile(__dirname+"/index.html")
+        //response.send('Welcome back, '+ request.session.username + '!')
+        //response.sendFile(__dirname+"/index.html")
+        response.render('index')
     }else{
         response.send('Please login to view this page!')
     }
-    response.end()
 })
+
 
 app.get('/oppilaat',(req,res) => {
 
@@ -101,13 +101,11 @@ app.get('/oppilaanSuoritukset/:opiskelijaID',(req,res) => {
         }
         
     })
-
 })
 
 
-
 app.get('/',(req,res) => {
-    res.sendFile(__dirname+'/login.html')
+    res.render('login')
 })
 
 
