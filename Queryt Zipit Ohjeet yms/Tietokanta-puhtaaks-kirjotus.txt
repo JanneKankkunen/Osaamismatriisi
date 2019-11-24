@@ -1,0 +1,188 @@
+DROP DATABASE IF EXISTS osaamismatriisiFinal;
+
+CREATE DATABASE IF NOT EXISTS osaamismatriisiFinal;
+
+USE osaamismatriisiFinal;
+
+
+CREATE TABLE kayttajaTyyppi(
+    kayttajaTyyppiID INT NOT NULL AUTO_INCREMENT,
+    kayttajaTyyppi VARCHAR(30),
+    PRIMARY KEY (kayttajaTyyppiID) 
+);
+
+CREATE TABLE opintoLinja(
+    linjaID INT NOT NULL AUTO_INCREMENT,
+    linjaNimi VARCHAR(30),
+    PRIMARY KEY (linjaID)
+);
+
+CREATE TABLE kayttaja(
+    kayttajaID INT NOT NULL AUTO_INCREMENT,
+    kayttajaTunnus VARCHAR(20),
+    nimi VARCHAR(20),
+    salasana VARCHAR(30),
+    opintoLinja INT NOT NULL,
+    kayttajaTyyppi INT NOT NULL,
+    FOREIGN KEY (kayttajaTyyppi) REFERENCES kayttajaTyyppi(kayttajaTyyppiID),
+    FOREIGN KEY (opintoLinja) REFERENCES opintoLinja(linjaID),
+    PRIMARY KEY (kayttajaID)
+);
+
+CREATE TABLE kompetenssi(
+    kompetenssiID INT NOT NULL AUTO_INCREMENT,
+    kompetenssiNimi VARCHAR(30),
+    PRIMARY KEY (kompetenssiID)
+);
+
+CREATE TABLE linjanKompetenssit(
+    linjaID INT NOT NULL,
+    kompetenssiID INT NOT NULL,
+    FOREIGN KEY (linjaID) REFERENCES opintoLinja(linjaID),
+    FOREIGN KEY (kompetenssiID) REFERENCES kompetenssi(kompetenssiID)
+);
+
+CREATE TABLE kurssi(
+    kurssiID INT NOT NULL AUTO_INCREMENT,
+    kurssiNimi VARCHAR(30),
+    PRIMARY KEY (kurssiID)
+);
+
+CREATE TABLE kompetenssinKurssit(
+    kompetenssiID INT NOT NULL,
+    kurssiID INT NOT NULL,
+    FOREIGN KEY (kurssiID) REFERENCES kurssi(kurssiID),
+    FOREIGN KEY (kompetenssiID) REFERENCES kompetenssi(kompetenssiID)
+);
+
+CREATE TABLE kurssisuoritus(
+    kayttajaID INT NOT NULL,
+    kurssiID INT NOT NULL,
+    arvosana INT NOT NULL,
+    FOREIGN KEY (kurssiID) REFERENCES kurssi(kurssiID),
+    FOREIGN KEY (kayttajaID) REFERENCES kayttaja(kayttajaID)
+);
+
+
+
+INSERT INTO kayttajaTyyppi (kayttajaTyyppi)
+VALUES ("opiskelija");
+
+INSERT INTO kayttajaTyyppi (kayttajaTyyppi)
+VALUES ("ylläpitäjä");
+
+
+INSERT INTO opintoLinja (linjaNimi)
+VALUES ("IT-ala");
+
+INSERT INTO opintoLinja (linjaNimi)
+VALUES ("ympäristöala");
+
+INSERT INTO opintoLinja (linjaNimi)
+VALUES ("konetekniikka");
+
+
+INSERT INTO kayttaja (kayttajaTunnus, opintoLinja, salasana, nimi, kayttajaTyyppi)
+VALUES ("duke", 1,"sala","Reijo Rantanen",1);
+
+INSERT INTO kayttaja (kayttajaTunnus, opintoLinja, salasana, nimi, kayttajaTyyppi)
+VALUES ("kaiser", 1,"mord","Kari Korpelainen",1);
+
+INSERT INTO kayttaja (kayttajaTunnus, opintoLinja, salasana, nimi, kayttajaTyyppi)
+VALUES ("testi", 1,"1","Testi Testinen",1);
+
+
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Ohjelmointi 1");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Ohjelmointi 2");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Ohjelmointi 3");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Yrittajyys");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Matematiikka 1");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Englanti 1");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Ilmaisutaito");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Orientoivat Opinnot");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Oppimisen ABC");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Ruotsi");
+
+
+INSERT INTO kompetenssi(kompetenssiNimi)
+VALUES ("Tekninen osaaminen IT");
+
+INSERT INTO kompetenssi(kompetenssiNimi)
+VALUES ("Johtajuus");
+
+INSERT INTO kompetenssi(kompetenssiNimi)
+VALUES ("Oppimisen taito");
+
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (1,1);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (1,2);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (1,3);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (2,4);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (2,7);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (3,5);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (3,8);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (3,9);
+
+
+INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
+VALUES (1,1);
+
+INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
+VALUES (1,2);
+
+INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
+VALUES (1,3);
+
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,1,5);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,2,4);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,3,5);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,4,1);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,7,3);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,9,4);

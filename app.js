@@ -25,9 +25,10 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+var username = "";
+var kayttajanTiedot = "tyhja";
 app.post('/auth', (request, response) => {
-	var username = request.body.username;
+	username = request.body.username;
     var password = request.body.password;
 	if (username && password) {
         const kysely = ' SELECT * FROM kayttaja WHERE kayttajaTunnus="'+username+'" AND salasana= "'+password+'"'
@@ -35,7 +36,9 @@ app.post('/auth', (request, response) => {
 		connection.query(kysely, (error, results) => {
             if (results.length > 0) {
 				request.session.loggedin = true;
-				request.session.username = username;
+                request.session.username = username;
+                kayttajanTiedot = results[0].kayttajaID
+                
 				response.redirect('/home');
                 
             } else {
@@ -53,7 +56,10 @@ app.get('/home',(request,response) => {
     if(request.session.loggedin){
         //response.send('Welcome back, '+ request.session.username + '!')
         //response.sendFile(__dirname+"/index.html")
-        response.render('index')
+        response.render('index', {
+            kayttaja: username,
+            kayttajanTiedot: kayttajanTiedot
+        })
     }else{
         response.send('Please login to view this page!')
     }
@@ -67,7 +73,9 @@ app.get('/oppilaat',(req,res) => {
         if(err){
             res.send("erroria pukkaa /oppilaat kohassa")
         }
+        
         res.send(opiskelijat)
+        
     })
 })
 
