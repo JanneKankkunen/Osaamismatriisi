@@ -111,6 +111,17 @@ app.get('/oppilaanSuoritukset/:opiskelijaID',(req,res) => {
     })
 })
 
+app.get('/kompetenssienmaara',(req, res) =>{ // metodi mikä hakee kompetenssien määrän databasesta niin saa tehtyä taulukkoon oikeen määrän rivejä
+    const kysely = "SELECT COUNT(DISTINCT kompetenssiID) AS namesCount FROM kompetenssinkurssit"
+    connection.query(kysely, function (err, result){
+        if (err){
+           res.send("Ei pysty laskemaan kompentessien määrää.") 
+        } else{
+            res.send(result)
+        }
+
+    })
+})
 
 app.get('/',(req,res) => {
     res.render('login')

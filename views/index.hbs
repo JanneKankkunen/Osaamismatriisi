@@ -3,10 +3,26 @@
 <title>Savonia osaamismatriisi</title>
 <style>
 table {
-	width:30%;
+    width: 300px;
+    table-layout: fixed;
 }
-table, td {
-	border: 1px solid black;
+tr:nth-child(odd) {
+    background-color: #f8f8f8;
+    opacity: .999;
+}
+td {
+    border: 1px solid #ccc;
+}
+td {
+    position: relative;
+}
+.bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #8ef;
+    z-index: -1;
 }
 </style>
 

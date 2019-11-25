@@ -50,9 +50,18 @@ $(document).ready(function(){
 
 $("#hakuMatriisiin").click(function(){
   console.log("'Matriisin haku'-nappia painettu")
-  var NewRow = osaamismatriisi.insertRow(1);
-  var Newcell1 = NewRow.insertCell(0);
-  var Newcell2 = NewRow.insertCell(1);
-  Newcell1.innerHTML = "Testong";
-  Newcell2.innerHTML = "Testomg";
+  var tbl = document.getElementById('osaamismatriisi'), // table reference
+  row = tbl.insertRow(tbl.rows.length),      // append table row
+  i;
+  for (i = 0; i <= data; i++) { // insert table cells to the new row
+    createCell(row.insertCell(i), i, 'row'); // tähän pitäis saada tehtyä semmonen systeemi mikä hakee databasesta kompetenssien määrän ja päräyttää sen verran rivejä taulukkoon
+  }
 })
+function createCell(cell, text, style) {
+  var div = document.createElement('div'), // create DIV element
+      txt = document.createTextNode(text); // create text node
+  div.appendChild(txt);                    // append text node to the DIV
+  div.setAttribute('class', bg);           // set DIV class attribute
+  div.setAttribute('className', style);    // set DIV class attribute for IE (?!)
+  cell.appendChild(div);                   // append DIV to the table cell
+}
