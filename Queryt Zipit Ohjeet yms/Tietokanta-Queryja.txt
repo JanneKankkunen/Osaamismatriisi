@@ -1,0 +1,35 @@
+Hae kayttajan nimi | opinto linjan nimi, ID:n perusteella
+
+SELECT linjaNimi, nimi FROM kayttaja
+INNER JOIN opintolinja on 
+kayttaja.opintoLinja = opintolinja.linjaID 
+WHERE kayttajaID = 1;
+
+
+Hae käyttäjän nimi | opintolinjan nimi | kompetenssin nimi, ID:n perusteella
+
+SELECT kayttaja.nimi, opintoLinja.linjaNimi, 
+kompetenssi.kompetenssiNimi as 'Kompetenssi' FROM (((kayttaja
+INNER JOIN opintolinja on 
+kayttaja.opintoLinja = opintolinja.linjaID 
+) INNER JOIN linjankompetenssit ON opintoLinja.linjaID = linjankompetenssit.linjaID)
+INNER JOIN kompetenssi ON kompetenssi.kompetenssiID = linjankompetenssit.kompetenssiID)
+WHERE kayttajaID = 1;
+
+
+KESKENERÄNEN tavotteena 
+                Nimi | Linja | Kompetenssi | Kurssi | Arvosana
+
+SELECT DISTINCT kayttaja.nimi, opintoLinja.linjaNimi, kompetenssi.kompetenssiNimi as 'Kompetenssi',kurssi.kurssiNimi ,kurssisuoritus.arvosana FROM ((((((kayttaja
+INNER JOIN opintolinja on 
+kayttaja.opintoLinja = opintolinja.linjaID 
+) INNER JOIN linjankompetenssit ON opintoLinja.linjaID = linjankompetenssit.linjaID)
+INNER JOIN kompetenssi ON kompetenssi.kompetenssiID = linjankompetenssit.kompetenssiID)
+INNER JOIN kurssisuoritus ON kurssisuoritus.kayttajaID = kayttaja.kayttajaID)
+INNER JOIN kompetenssinkurssit ON kompetenssinkurssit.kompetenssiID = kompetenssi.kompetenssiID)
+INNER JOIN kurssi ON kurssi.kurssiID = kurssisuoritus.kurssiID)
+WHERE kayttaja.kayttajaID = 3 AND kompetenssinkurssit.kurssiID = kurssi.kurssiID;
+
+
+
+
