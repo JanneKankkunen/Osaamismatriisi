@@ -17,8 +17,8 @@ INNER JOIN kompetenssi ON kompetenssi.kompetenssiID = linjankompetenssit.kompete
 WHERE kayttajaID = 1;
 
 
-KESKENERÄNEN tavotteena 
-                Nimi | Linja | Kompetenssi | Kurssi | Arvosana
+
+  HAE              Nimi | Linja | Kompetenssi | Kurssi | Arvosana
 
 SELECT DISTINCT kayttaja.nimi, opintoLinja.linjaNimi, kompetenssi.kompetenssiNimi as 'Kompetenssi',kurssi.kurssiNimi ,kurssisuoritus.arvosana FROM ((((((kayttaja
 INNER JOIN opintolinja on 
