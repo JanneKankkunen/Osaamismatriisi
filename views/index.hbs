@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en">
 <title>Savonia osaamismatriisi</title>
+<style>
+table {
+	width:30%;
+}
+table, td {
+	border: 1px solid black;
+}
+</style>
 
 <head>
     <!-- Required meta tags -->
@@ -12,7 +20,12 @@
 </head>
 
 <body>
-    <ul>
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="navbar-collapse navbar-nav mr-auto" style="background-color: lightblue">
+		<img class="mx-sm-3" src="http://portal.savonia.fi/img/amk/sisalto/_tutustu-savoniaan/viestintapalvelut/SAVONIA_logo_rgb.jpg"height="28" width="100">
+		</div>
+		</nav>
+    <!--<ul>
 		<div class="progress">
 			<div class="progress-bar kompetenssi1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 		</div>
@@ -28,11 +41,20 @@
 		<div class="progress">
 			<div class="progress-bar kompetenssi5" role="progressbar" style="width: 88%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
 		</div>
-	</ul>	
+	</ul>	-->
 	<div>
-		<p>Penis :-------------D{{kayttaja}}</p>
+		<p>{{kayttaja}}</p>
 
 		<p>{{kayttajanTiedot}}</p>
+	</div>
+	<div>
+		<button type="button" id="hakuMatriisiin">Hae matriisi</button>
+	</div>
+	<div>
+		<table id="osaamismatriisi">
+			<th>Kompetenssi</th>
+			<th>Osaamisen taso</th>
+		</table>
 	</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

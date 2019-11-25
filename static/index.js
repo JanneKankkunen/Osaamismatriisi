@@ -48,3 +48,11 @@ $(document).ready(function(){
 
 });
 
+$("#hakuMatriisiin").click(function(){
+  console.log("'Matriisin haku'-nappia painettu")
+  var NewRow = osaamismatriisi.insertRow(1);
+  var Newcell1 = NewRow.insertCell(0);
+  var Newcell2 = NewRow.insertCell(1);
+  Newcell1.innerHTML = "Testong";
+  Newcell2.innerHTML = "Testomg";
+})
