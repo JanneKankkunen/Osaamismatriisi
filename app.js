@@ -27,18 +27,68 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var username = "";
 var kayttajanTiedot = "tyhja";
+var kayttajanTiedotArrayssa = [];
+
+
+var kayttajanNimi = "XnimiX";
+var kayttajanLinja = "XlinjaX";
+var kayttajanKompetenssit = [];
+var kayttajanKurssitJaArvosanat = [];
+
+var kompetenssiObj = {
+    nimi: "kompetenssi",
+    suoritukset: [
+        {
+            kurssi: "kurssi1",
+            arvosana: "5" 
+        }
+    ]
+};
+
+
+
 app.post('/auth', (request, response) => {
 	username = request.body.username;
     var password = request.body.password;
 	if (username && password) {
+
+        //tähän pitää lisätä vielä kurssien lukumäärä kompetenssiä kohden
+
+        const megaKysely = ' SELECT DISTINCT kayttaja.nimi, opintoLinja.linjaNimi, kompetenssi.kompetenssiNimi as "Kompetenssi", kurssi.kurssiNimi, kurssisuoritus.arvosana '+
+        'FROM ((((((kayttaja INNER JOIN opintolinja on kayttaja.opintoLinja = opintolinja.linjaID) '+
+        'INNER JOIN linjankompetenssit ON opintoLinja.linjaID = linjankompetenssit.linjaID) '+
+        'INNER JOIN kompetenssi ON kompetenssi.kompetenssiID = linjankompetenssit.kompetenssiID) '+
+        'INNER JOIN kurssisuoritus ON kurssisuoritus.kayttajaID = kayttaja.kayttajaID) '+
+        'INNER JOIN kompetenssinkurssit ON kompetenssinkurssit.kompetenssiID = kompetenssi.kompetenssiID) '+
+        'INNER JOIN kurssi ON kurssi.kurssiID = kurssisuoritus.kurssiID) '+
+        'WHERE kayttaja.kayttajaTunnus ="'+username+'"  AND kompetenssinkurssit.kurssiID = kurssi.kurssiID '+
+        'AND kayttajaTunnus="'+username+'" AND salasana= "'+password+'"'
+
+
         const kysely = ' SELECT * FROM kayttaja WHERE kayttajaTunnus="'+username+'" AND salasana= "'+password+'"'
-        console.log(kysely)
-		connection.query(kysely, (error, results) => {
+        
+		connection.query(megaKysely, (error, results) => {
             if (results.length > 0) {
 				request.session.loggedin = true;
                 request.session.username = username;
-                kayttajanTiedot = results[0].kayttajaID
                 
+                kayttajanTiedot = JSON.stringify(results);
+                
+                kayttajanNimi = JSON.stringify(results[0].nimi)
+                kayttajanLinja = JSON.stringify(results[0].linjaNimi)
+
+
+                //Kompetenssit taulukkoon
+                results.forEach(element => {
+                    if(kayttajanKompetenssit.indexOf(element.Kompetenssi) === -1){
+                        kayttajanKompetenssit.push(element.Kompetenssi)
+                    }
+                    console.log(element.Kompetenssi)
+                });
+                // kayttajanTiedotArrayssa = JSON.stringify(results.array.forEach(element => {
+                //     console.log(element)
+                // }));
+
 				response.redirect('/home');
                 
             } else {
@@ -56,9 +106,15 @@ app.get('/home',(request,response) => {
     if(request.session.loggedin){
         //response.send('Welcome back, '+ request.session.username + '!')
         //response.sendFile(__dirname+"/index.html")
+        var objString = JSON.stringify(kompetenssiObj)
+
         response.render('index', {
             kayttaja: username,
-            kayttajanTiedot: kayttajanTiedot
+            kayttajanTiedot: kayttajanTiedot,
+            kayttajanNimi: kayttajanNimi,
+            kayttajanLinja: kayttajanLinja,
+            kayttajanKompetenssit: kayttajanKompetenssit,
+            kompetenssiObj: objString
         })
     }else{
         response.send('Please login to view this page!')

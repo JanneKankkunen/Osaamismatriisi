@@ -12,27 +12,62 @@
 </head>
 
 <body>
-    <ul>
-		<div class="progress">
-			<div class="progress-bar kompetenssi1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<div class="progress">
-			<div class="progress-bar kompetenssi2" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<div class="progress">
-			<div class="progress-bar kompetenssi3" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<div class="progress">
-			<div class="progress-bar kompetenssi4" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<div class="progress">
-			<div class="progress-bar kompetenssi5" role="progressbar" style="width: 88%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-	</ul>	
-	<div>
-		<p>Penis :-------------D{{kayttaja}}</p>
 
+	<div>
+		<h1 class="display-2" style="text-align: center;">Tervetuloa osaamismatriisiin {{kayttaja}}!</h1>
+	</div>
+
+	<div style="width: 70%; height: 30%; margin: auto; padding-top: 2%;">
+		<ul>
+			<div class="progress">
+				<div class="progress-bar kompetenssi1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress">
+				<div class="progress-bar kompetenssi2" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress">
+				<div class="progress-bar kompetenssi3" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress">
+				<div class="progress-bar kompetenssi4" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="progress">
+				<div class="progress-bar kompetenssi5" role="progressbar" style="width: 88%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+		</ul>
+	</div>	
+			
+	<div>
+
+
+		<table style="width:50%">
+			<tr>
+				<th>Nimi</th>
+				<th>Käyttäjä tunnus</th>
+				<th>Linja</th>
+			</tr>
+			<tr>
+				<td>{{kayttajanNimi}}</td>
+				<td>{{kayttaja}}</td>
+				<td>{{kayttajanLinja}}</td>
+			</tr>
+		</table>
+
+
+
+		<br><br><br><br><br><br>
+		<p>Kompetenssi OBJ</p><br>
+		<p>{{kompetenssiObj}}</p>
+
+		<br><br>
+		<div>
+
+		</div>
+		<p>yksittäinen tieto kompetenssit taulusta: {{kayttajanKompetenssit.[0]}}</p>
+
+		<br><br>
 		<p>{{kayttajanTiedot}}</p>
+
 	</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
