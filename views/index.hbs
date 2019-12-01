@@ -17,26 +17,10 @@
 		<h1 class="display-2" style="text-align: center;">Tervetuloa osaamismatriisiin {{kayttaja}}!</h1>
 	</div>
 
-	<div style="width: 70%; height: 30%; margin: auto; padding-top: 2%;">
-		<ul>
-			<div class="progress">
-				<div class="progress-bar kompetenssi1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="progress">
-				<div class="progress-bar kompetenssi2" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="progress">
-				<div class="progress-bar kompetenssi3" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="progress">
-				<div class="progress-bar kompetenssi4" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="progress">
-				<div class="progress-bar kompetenssi5" role="progressbar" style="width: 88%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-		</ul>
-	</div>	
-			
+	
+	<div><canvas style="margin: auto;" id="myChart"></canvas></div>
+	
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<div>
 
 
@@ -52,13 +36,17 @@
 				<td>{{kayttajanLinja}}</td>
 			</tr>
 		</table>
+		<br><br>
+		
 
 
-
-		<br><br><br><br><br><br>
-		<p>Kompetenssi OBJ</p><br>
-		<p>{{kompetenssiObj}}</p>
-
+		
+		<p>Kompetenssi OBJ{{kompetenssiObj1.nimi}} sisältää {{kompetenssiObj1.maxKurssit}} kurssia, käyttäjä saanut arvosanoja {{kompetenssiObj1.kayttajanArvosanatYhteensa}}</p><br>
+		<p>{{kompetenssiObj2.nimi}} sisältää {{kompetenssiObj2.maxKurssit}} kurssia käyttäjä saanut arvosanoja {{kompetenssiObj2.kayttajanArvosanatYhteensa}} / {{kompetenssiObj2.maxArvosanat}}</p>
+		<p>{{kompetenssiObj3.nimi}} sisältää {{kompetenssiObj3.maxKurssit}} kurssia käyttäjä saanut arvosanoja {{kompetenssiObj3.kayttajanArvosanatYhteensa}}</p>
+		<p>{{kompetenssiObj4.nimi}} sisältää {{kompetenssiObj4.maxKurssit}} kurssia käyttäjä saanut arvosanoja {{kompetenssiObj4.kayttajanArvosanatYhteensa}}</p>
+		<p>{{kompetenssiObj5.nimi}} sisältää {{kompetenssiObj5.maxKurssit}} kurssia käyttäjä saanut arvosanoja {{kompetenssiObj5.kayttajanArvosanatYhteensa}}</p>
+		
 		<br><br>
 		<div>
 
@@ -69,6 +57,8 @@
 		<p>{{kayttajanTiedot}}</p>
 
 	</div>
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
@@ -76,6 +66,48 @@
     <script src="static/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+	{{!-- <script src="static/chart.js"></script> --}}
+	<script>var ctx = document.getElementById('myChart').getContext('2d');
+		ctx.canvas.height = 700;
+		ctx.canvas.width = 700;
+var myChart = new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+        labels: ['{{kompetenssiObj1.nimi}}', '{{kompetenssiObj2.nimi}}', '{{kompetenssiObj3.nimi}}', '{{kompetenssiObj4.nimi}}', '{{kompetenssiObj5.nimi}}'],
+        datasets: [{
+            label: '# of Votes',
+            data: ["{{kompetenssiObj1.kompetenssiProsentti}}", "{{kompetenssiObj2.kompetenssiProsentti}}", "{{kompetenssiObj3.kompetenssiProsentti}}", "{{kompetenssiObj4.kompetenssiProsentti}}", "{{kompetenssiObj5.kompetenssiProsentti}}"],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        //scales: {
+          //  yAxes: [{
+            //    ticks: {
+              //      beginAtZero: true
+                //}
+            //}]
+        //},
+		maintainAspectRatio: false,
+		responsive: false
+    }
+});</script>
 </body>
 </html>

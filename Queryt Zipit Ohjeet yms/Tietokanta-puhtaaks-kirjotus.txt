@@ -123,15 +123,30 @@ VALUES ("Oppimisen ABC");
 INSERT INTO kurssi (kurssiNimi)
 VALUES ("Ruotsi");
 
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("CCNA 1");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("CCNA 2");
+
+INSERT INTO kurssi (kurssiNimi)
+VALUES ("Palvelin tuotanto");
+
 
 INSERT INTO kompetenssi(kompetenssiNimi)
-VALUES ("Tekninen osaaminen IT");
+VALUES ("Ohjelmointi");
 
 INSERT INTO kompetenssi(kompetenssiNimi)
 VALUES ("Johtajuus");
 
 INSERT INTO kompetenssi(kompetenssiNimi)
 VALUES ("Oppimisen taito");
+
+INSERT INTO kompetenssi(kompetenssiNimi)
+VALUES ("Verkko liikenne");
+
+INSERT INTO kompetenssi(kompetenssiNimi)
+VALUES ("Kielitaito");
 
 
 INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
@@ -158,6 +173,21 @@ VALUES (3,8);
 INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
 VALUES (3,9);
 
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (4,11);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (4,12);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (4,13);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (5,6);
+
+INSERT INTO kompetenssinKurssit(kompetenssiID,kurssiID)
+VALUES (5,10);
+
 
 INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
 VALUES (1,1);
@@ -167,6 +197,12 @@ VALUES (1,2);
 
 INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
 VALUES (1,3);
+
+INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
+VALUES (1,4);
+
+INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
+VALUES (1,5);
 
 
 INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
@@ -186,3 +222,15 @@ VALUES (3,7,3);
 
 INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
 VALUES (3,9,4);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,10,1);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,11,5);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,12,5);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (3,13,5);

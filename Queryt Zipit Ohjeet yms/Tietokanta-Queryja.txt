@@ -32,4 +32,12 @@ WHERE kayttaja.kayttajaID = 3 AND kompetenssinkurssit.kurssiID = kurssi.kurssiID
 
 
 
+HAE kurssien lukumäärä kompetenssia kohden
 
+SELECT kompetenssiID, COUNT(kurssiID) kurssienLKM FROM kompetenssinkurssit GROUP BY kompetenssiID;
+
+
+Nimi lisäksi
+
+SELECT kompetenssiNimi ,kompetenssinkurssit.kompetenssiID, COUNT(kurssiID) kurssienlkm FROM kompetenssinkurssit 
+INNER JOIN kompetenssi ON kompetenssi.kompetenssiID = kompetenssinKurssit.kompetenssiID GROUP BY kompetenssiID;
