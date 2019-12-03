@@ -54,7 +54,7 @@
             data: {
                 labels: nimet,
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Kompetenssipistettä ',
                     data: dataTaulu,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -76,6 +76,25 @@
                 }]
             },
             options: {
+                scale: {
+                    ticks: {
+                        min: 0,
+                        max: 100
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += Math.round(tooltipItem.yLabel * 100) / 100;
+
+                            return label
+                        }
+                    }
+                },
                 maintainAspectRatio: false,
                 responsive: false
             }
