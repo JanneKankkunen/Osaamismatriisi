@@ -27,27 +27,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var username = "";
 var kayttajanTiedot = "tyhja";
-var kayttajanTiedotArrayssa = [];
 
+var objKompes = []
+var objKompe1 = {}
+objKompe1.nimi = "Tyhja"
+objKompes.push(objKompe1)
 
-var kayttajanNimi = "XnimiX";
-var kayttajanLinja = "XlinjaX";
-var kayttajanKompetenssit = [];
-var kayttajanKurssitJaArvosanat = [];
-
-//kompetenssi objektiin pitäis saada:
-//  Kompetenssin sisältämien kurssien lukumäärä
-//  Käyttäjän yhteisarvosana kursseista, joita on suorittanut kompetenssin sisältä
-//  Kompetenssi nimi
-// 
-
-var kompetenssiObj1 = {}
-var kompetenssiObj2 = {}
-var kompetenssiObj3 = {}
-var kompetenssiObj4 = {}
-var kompetenssiObj5 = {}
-
-var kompetenssiObjt = [kompetenssiObj1,kompetenssiObj2,kompetenssiObj3, kompetenssiObj4, kompetenssiObj5]
+var prosenttiTaulukko = []
+var nimiTaulukko = []
 
 
 app.post('/auth', (request, response) => {
@@ -81,31 +68,40 @@ app.post('/auth', (request, response) => {
                 kayttajanLinja = JSON.stringify(results[0].linjaNimi)
 
 
-                //Kompetenssit taulukkoon
+                //uutta juttua
+                
+
                 results.forEach(element => {
-                    if(kayttajanKompetenssit.indexOf(element.Kompetenssi) === -1){
-                        kayttajanKompetenssit.push(element.Kompetenssi)
+                    
+                    //populoidaan kompetenssi taulukko, kompetenssi objekteilla joilla nimet,
+                    for(var x = 0; x < objKompes.length; x++){
+                        if(objKompes[x].nimi === "Tyhja"){
+                            objKompes[x].nimi = element.Kompetenssi
+                            objKompes[x].kayttajanArvosanat = 0
+                        }
+                        var indexOfNimi = -1
+                        indexOfNimi = objKompes.findIndex(i => i.nimi === element.Kompetenssi)
+                        if(indexOfNimi > -1){
+                            continue;
+                        }else{
+                            var kompetenssiObj = {}
+                            kompetenssiObj.nimi = element.Kompetenssi
+                            kompetenssiObj.kayttajanArvosanat = 0
+                            kompetenssiObj.maxKurssit = 0
+                            kompetenssiObj.kompetenssiProsentti = 0
+                            objKompes.push(kompetenssiObj)
+                            
+                        }
+                    }
+
+                    //haetaan käyttäjän yhteisarvosanat kompetenssia kohden
+                    for(var x = 0; x < objKompes.length; x++){
+                        if(objKompes[x].nimi === element.Kompetenssi){
+                            objKompes[x].kayttajanArvosanat += element.arvosana
+                            break;
+                        }
                     }
                 });
-                
-                kompetenssiObj1.nimi = kayttajanKompetenssit[0]
-                kompetenssiObj2.nimi = kayttajanKompetenssit[1]
-                kompetenssiObj3.nimi = kayttajanKompetenssit[2]
-                kompetenssiObj4.nimi = kayttajanKompetenssit[3]
-                kompetenssiObj5.nimi = kayttajanKompetenssit[4]
-                // kayttajanTiedotArrayssa = JSON.stringify(results.array.forEach(element => {
-                //     console.log(element)
-                // }));
-                
-                kompetenssiObjt.forEach(kompetenssi => {
-                    kompetenssi.kayttajanArvosanatYhteensa = 0
-                    results.forEach(element => {
-                        if(kompetenssi.nimi === element.Kompetenssi){
-                            kompetenssi.kayttajanArvosanatYhteensa += element.arvosana
-                        }
-                    })
-                })
-
 
 				response.redirect('/home');
                 
@@ -123,24 +119,32 @@ app.post('/auth', (request, response) => {
                 request.session.username = username;
 
                 results.forEach(element => {
-                    kompetenssiObjt.forEach(kompetenssiObj => {
+                    objKompes.forEach(kompetenssiObj => {
                         if(kompetenssiObj.nimi === element.kompetenssiNimi){
                             kompetenssiObj.maxKurssit = element.kurssienLkm
                         }
                     })
                 })
 
-                kompetenssiObjt.forEach(kompe => {
-                    kompe.maxArvosanat = kompe.maxKurssit * 5
+                objKompes.forEach(kompe => {
+                    console.log("Käyttäjän arvosanat prosentin laskun hetkellä "+kompe.kayttajanArvosanat)
+                    kompe.kompetenssiProsentti = kompe.kayttajanArvosanat  / (kompe.maxKurssit * 5) * 100
+                });
+
+                objKompes.forEach(kompe => {
+                    if(nimiTaulukko.length < results.length){
+                        nimiTaulukko.push(kompe.nimi)
+                    }
+                    if(prosenttiTaulukko.length < results.length){
+                        prosenttiTaulukko.push(kompe.kompetenssiProsentti)
+                    }
+                    
                 })
 
-                kompetenssiObjt.forEach(kompe => {
-                    kompe.kompetenssiProsentti = kompe.kayttajanArvosanatYhteensa / kompe.maxArvosanat * 100
-                })
-
+                //uutta juttua
             }
-        })
 
+        })
 
 	} else {
 		response.send('Please enter Username and Password!');
@@ -149,25 +153,19 @@ app.post('/auth', (request, response) => {
 });
 
 
-
-
 app.get('/home',(request,response) => {
 
     if(request.session.loggedin){
        
+        objKompes.forEach(kompe => {
+            console.log(kompe.nimi+": "+kompe.kompetenssiProsentti)
+        })
 
         response.render('index', {
             kayttaja: username,
-            kayttajanTiedot: kayttajanTiedot,
-            kayttajanNimi: kayttajanNimi,
-            kayttajanLinja: kayttajanLinja,
-            kayttajanKompetenssit: kayttajanKompetenssit,
-            kompetenssiObj1: kompetenssiObj1,
-            kompetenssiObj2: kompetenssiObj2,
-            kompetenssiObj3: kompetenssiObj3,
-            kompetenssiObj4: kompetenssiObj4,
-            kompetenssiObj5: kompetenssiObj5
-            , helpers: {
+            nimiTaulu: nimiTaulukko,
+            prosenttiTaulu: prosenttiTaulukko,
+            helpers: {
                 json: function(context){
                     return JSON.stringify(context)
                 }
@@ -176,52 +174,6 @@ app.get('/home',(request,response) => {
     }else{
         response.send('Please login to view this page!')
     }
-})
-
-
-app.get('/oppilaat',(req,res) => {
-
-    const kysely = "SELECT * FROM opiskelija"
-    connection.query(kysely,(err,opiskelijat) => {
-        if(err){
-            res.send("erroria pukkaa /oppilaat kohassa")
-        }
-        
-        res.send(opiskelijat)
-        
-    })
-})
-
-
-app.get('/oppilas/:id',(req,res) => {
-
-    const kysely = "SELECT * FROM opiskelija WHERE opiskelijaID="+req.params.id+" "
-    connection.query(kysely,(err,opiskelija) => {
-        if(err){
-            res.send("erroria pukkaa /oppilas kohassa")
-        }else{
-            res.send(opiskelija)
-        }
-        
-    })
-})
-
-app.get('/oppilaanSuoritukset/:opiskelijaID',(req,res) => {
-
-    const kysely = "SELECT DISTINCT opiskelija.nimi, kurssi.kurssiNimi,kurssisuoritus.arvosana "+
-    "FROM (kurssisuoritus INNER JOIN kurssi "+
-    "ON kurssisuoritus.kurssiID = kurssi.kurssiID) "+
-    "INNER JOIN opiskelija ON kurssisuoritus.opiskelijaID = opiskelija.opiskelijaID "+
-    "WHERE opiskelija.opiskelijaID = "+req.params.opiskelijaID
-
-    connection.query(kysely,(err, tiedot) => {
-        if(err){
-            res.send("Erroria tulee opiskelijan tietoja haettaessa")
-        }else{
-            res.send(tiedot)
-        }
-        
-    })
 })
 
 
