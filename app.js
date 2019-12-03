@@ -101,7 +101,6 @@ app.post('/auth', (request, response) => {
                     kompetenssi.kayttajanArvosanatYhteensa = 0
                     results.forEach(element => {
                         if(kompetenssi.nimi === element.Kompetenssi){
-                            console.log(element.arvosana)
                             kompetenssi.kayttajanArvosanatYhteensa += element.arvosana
                         }
                     })
@@ -155,8 +154,7 @@ app.post('/auth', (request, response) => {
 app.get('/home',(request,response) => {
 
     if(request.session.loggedin){
-        //response.send('Welcome back, '+ request.session.username + '!')
-        //response.sendFile(__dirname+"/index.html")
+       
 
         response.render('index', {
             kayttaja: username,
