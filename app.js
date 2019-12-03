@@ -42,7 +42,6 @@ app.post('/auth', (request, response) => {
     var password = request.body.password;
 	if (username && password) {
 
-        //tähän pitää lisätä vielä kurssien lukumäärä kompetenssiä kohden
 
         const megaKysely = ' SELECT DISTINCT kayttaja.nimi, opintoLinja.linjaNimi, kompetenssi.kompetenssiNimi as "Kompetenssi", kurssi.kurssiNimi, kurssisuoritus.arvosana '+
         'FROM ((((((kayttaja INNER JOIN opintolinja on kayttaja.opintoLinja = opintolinja.linjaID) '+
@@ -68,7 +67,6 @@ app.post('/auth', (request, response) => {
                 kayttajanLinja = JSON.stringify(results[0].linjaNimi)
 
 
-                //uutta juttua
                 
 
                 results.forEach(element => {
@@ -127,7 +125,6 @@ app.post('/auth', (request, response) => {
                 })
 
                 objKompes.forEach(kompe => {
-                    console.log("Käyttäjän arvosanat prosentin laskun hetkellä "+kompe.kayttajanArvosanat)
                     kompe.kompetenssiProsentti = kompe.kayttajanArvosanat  / (kompe.maxKurssit * 5) * 100
                 });
 
@@ -141,7 +138,6 @@ app.post('/auth', (request, response) => {
                     
                 })
 
-                //uutta juttua
             }
 
         })
@@ -156,10 +152,6 @@ app.post('/auth', (request, response) => {
 app.get('/home',(request,response) => {
 
     if(request.session.loggedin){
-       
-        objKompes.forEach(kompe => {
-            console.log(kompe.nimi+": "+kompe.kompetenssiProsentti)
-        })
 
         response.render('index', {
             kayttaja: username,
