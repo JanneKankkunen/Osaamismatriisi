@@ -76,7 +76,6 @@ app.post('/auth', (request, response) => {
                 kayttajanTiedot = JSON.stringify(results);
                 
                 if(results[0].kayttajaTyyppi === 2){
-                    console.log("no olihan se 2")
                     return response.redirect('/admin')
                 }
                 
@@ -146,28 +145,18 @@ app.post('/auth', (request, response) => {
                     if(prosenttiTaulukko.length < results.length){
                         prosenttiTaulukko.push(kompe.kompetenssiProsentti)
                     }
-                    
                 })
-
             }
-
         })
-
 	} else {
 		response.send('Please enter Username and Password!');
 		response.end();
 	}
 });
 
-
 app.get('/home',(request,response) => {
 
     if(request.session.loggedin){
-        
-        nimiTaulukko.forEach(element => {
-            console.log(element)
-        })
-
         response.render('index', {
             kayttaja: username,
             nimiTaulu: nimiTaulukko,
@@ -185,10 +174,13 @@ app.get('/home',(request,response) => {
 })
 //käyttäjän lisäys submitin painaminen kayttajanLisays.hbs(kaiketi?)
 app.post('/lisaaKayttaja',(request,response) => {
-    console.log(request[0])
-    console.log(request.session[0])
-    console.log(request.body.name)
     
+    var kayttajaTunnus = request.query.username
+    console.log(kayttajaTunnus)
+    console.log(request.query.oikeaNimi)
+    console.log(request.query.password)
+    console.log(request.query.opintoLinjaVal)
+    console.log(request.query.kayttajaTyyppi)
 
 })
 //käyttäjän lisäys linkin painaminen admin.hbs
@@ -202,6 +194,19 @@ app.get('/admin',(request,response) => {
     }else{
         console.log("käännytettiin pois /admin kohasta")
     }
+})
+
+app.get('/opintoLinjat',(request,response) => {
+
+    const kysely = "SELECT linjaNimi, linjaID FROM opintolinja"
+    connection.query(kysely, (err,results) => {
+        if(results.length > 0){
+            response.send(results)
+        }else{
+            res.send("ERROR at /opintoLinjat")
+        }
+    })
+
 })
 
 //jos ei mikään edeltävistä urlin lopuista niin mennää tänne

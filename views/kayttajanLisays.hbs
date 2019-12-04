@@ -36,6 +36,8 @@
 			color: #ffffff;
 		}
 		</style>
+	    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
+		<script  src="../static/kayttajanLisays.js"></script>
 	</head>
 	<body>
 		<div class="login-form">
@@ -43,10 +45,16 @@
             <img class="mx-sm-3" src="http://portal.savonia.fi/img/amk/sisalto/_tutustu-savoniaan/viestintapalvelut/SAVONIA_logo_rgb.jpg"height="28" width="100">
 			<h2>Lisää käyttäjä järjestelmään</h2>
 			
-			<form action="lisaaKayttaja" method="POST">
-				<label>Käyttäjän nimi</label><input type="text" name="username" required>
-				Käyttäjän salasana<input type="password" name="password" required>
-				<input type="submit" value="Lisää käyttäjä">
+			<form id="kayttajanLisaysFormi" action="lisaaKayttaja" method="POST" onSubmit="return false">
+				<label>Nimi</label><input type="text" name="oikeaNimi" required>
+				<label>Käyttäjä tunnus</label><input type="text" name="username" required>
+				<label>Salasana</label><input type="password" name="password" required>
+				<label>Opintolinja</label><select name="opintoLinjaVal" id="opintoLinjanValinta" required>
+					
+				</select><br><br>
+				<label>Ylläpitäjä/opettaja?</label><input type="checkbox" name="kayttajaTyyppi" value="admin">
+				<br><br><input type="submit" value="Lisää käyttäjä">
+
 			</form>
 		</div>
 	</body>
