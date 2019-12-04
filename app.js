@@ -26,6 +26,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var username = "";
+var kayttajanOikeaNimi = ""
 var kayttajanTiedot = "tyhja";
 
 var objKompes = []
@@ -38,7 +39,16 @@ var nimiTaulukko = []
 
 
 app.post('/auth', (request, response) => {
-	username = request.body.username;
+    
+    
+    objKompes = []
+    objKompe1 = {}
+    objKompe1.nimi = "Tyhja"
+    objKompes.push(objKompe1)
+    prosenttiTaulukko = []
+    nimiTaulukko = []
+    
+    username = request.body.username;
     var password = request.body.password;
 	if (username && password) {
 
@@ -70,7 +80,7 @@ app.post('/auth', (request, response) => {
                 
 
                 results.forEach(element => {
-                    
+                    kayttajanOikeaNimi = element.nimi
                     //populoidaan kompetenssi taulukko, kompetenssi objekteilla joilla nimet,
                     for(var x = 0; x < objKompes.length; x++){
                         if(objKompes[x].nimi === "Tyhja"){
@@ -152,11 +162,16 @@ app.post('/auth', (request, response) => {
 app.get('/home',(request,response) => {
 
     if(request.session.loggedin){
+        
+        nimiTaulukko.forEach(element => {
+            console.log(element)
+        })
 
         response.render('index', {
             kayttaja: username,
             nimiTaulu: nimiTaulukko,
             prosenttiTaulu: prosenttiTaulukko,
+            kayttajanOikeaNimi: kayttajanOikeaNimi,
             helpers: {
                 json: function(context){
                     return JSON.stringify(context)
