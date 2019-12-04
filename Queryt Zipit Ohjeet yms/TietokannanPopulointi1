@@ -71,3 +71,7 @@ INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
 VALUES (4,16,2);
 
 
+--Admin käyttäjän lisäys
+
+INSERT INTO kayttaja (kayttajaTunnus, opintoLinja, salasana, nimi, kayttajaTyyppi)
+VALUES ("admin", 2,"1","Ylläpitäjä",2);

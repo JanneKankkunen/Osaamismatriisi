@@ -50,10 +50,12 @@ app.post('/auth', (request, response) => {
     
     username = request.body.username;
     var password = request.body.password;
+
+
 	if (username && password) {
 
 
-        const megaKysely = ' SELECT DISTINCT kayttaja.nimi, opintoLinja.linjaNimi, kompetenssi.kompetenssiNimi as "Kompetenssi", kurssi.kurssiNimi, kurssisuoritus.arvosana '+
+        const megaKysely = ' SELECT DISTINCT kayttaja.kayttajaTyyppi,kayttaja.nimi, opintoLinja.linjaNimi, kompetenssi.kompetenssiNimi as "Kompetenssi", kurssi.kurssiNimi, kurssisuoritus.arvosana '+
         'FROM ((((((kayttaja INNER JOIN opintolinja on kayttaja.opintoLinja = opintolinja.linjaID) '+
         'INNER JOIN linjankompetenssit ON opintoLinja.linjaID = linjankompetenssit.linjaID) '+
         'INNER JOIN kompetenssi ON kompetenssi.kompetenssiID = linjankompetenssit.kompetenssiID) '+
@@ -73,10 +75,10 @@ app.post('/auth', (request, response) => {
                 
                 kayttajanTiedot = JSON.stringify(results);
                 
-                kayttajanNimi = JSON.stringify(results[0].nimi)
-                kayttajanLinja = JSON.stringify(results[0].linjaNimi)
-
-
+                if(results[0].kayttajaTyyppi === 2){
+                    console.log("no olihan se 2")
+                    return response.redirect('/admin')
+                }
                 
 
                 results.forEach(element => {
@@ -110,7 +112,6 @@ app.post('/auth', (request, response) => {
                         }
                     }
                 });
-
 				response.redirect('/home');
                 
             } else {
@@ -182,8 +183,28 @@ app.get('/home',(request,response) => {
         response.send('Please login to view this page!')
     }
 })
+//käyttäjän lisäys submitin painaminen kayttajanLisays.hbs(kaiketi?)
+app.post('/lisaaKayttaja',(request,response) => {
+    console.log(request[0])
+    console.log(request.session[0])
+    console.log(request.body.name)
+    
 
+})
+//käyttäjän lisäys linkin painaminen admin.hbs
+app.get('/kayttajanLisays',(req,res) => {
+    res.render('kayttajanLisays')
+})
+//jos kayttajatyyppiID 2 eli admin, mennää tänne
+app.get('/admin',(request,response) => {
+    if(request.session.loggedin){
+        response.render('admin')
+    }else{
+        console.log("käännytettiin pois /admin kohasta")
+    }
+})
 
+//jos ei mikään edeltävistä urlin lopuista niin mennää tänne
 app.get('/',(req,res) => {
     res.render('login')
 })

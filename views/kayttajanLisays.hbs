@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Osaamismatriisi login</title>
+		<title>Admin page / ylläpitäjä sivu</title>
 		<style>
 		.login-form {
 			width: 300px;
@@ -39,12 +39,14 @@
 	</head>
 	<body>
 		<div class="login-form">
-            <h1>Kirjaudu sisään osaamismatriisiin</h1>
+            
             <img class="mx-sm-3" src="http://portal.savonia.fi/img/amk/sisalto/_tutustu-savoniaan/viestintapalvelut/SAVONIA_logo_rgb.jpg"height="28" width="100">
-			<form action="auth" method="POST">
-				<input type="text" name="username" placeholder="Username" required>
-				<input type="password" name="password" placeholder="Password" required>
-				<input type="submit">
+			<h2>Lisää käyttäjä järjestelmään</h2>
+			
+			<form action="lisaaKayttaja" method="POST">
+				<label>Käyttäjän nimi</label><input type="text" name="username" required>
+				Käyttäjän salasana<input type="password" name="password" required>
+				<input type="submit" value="Lisää käyttäjä">
 			</form>
 		</div>
 	</body>
