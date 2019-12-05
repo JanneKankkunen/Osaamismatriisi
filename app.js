@@ -175,12 +175,30 @@ app.get('/home',(request,response) => {
 //käyttäjän lisäys submitin painaminen kayttajanLisays.hbs(kaiketi?)
 app.post('/lisaaKayttaja',(request,response) => {
     
-    var kayttajaTunnus = request.query.username
-    console.log(kayttajaTunnus)
-    console.log(request.query.oikeaNimi)
-    console.log(request.query.password)
-    console.log(request.query.opintoLinjaVal)
-    console.log(request.query.kayttajaTyyppi)
+    
+    
+    var kayttajaTyyppiID = 1
+    if(request.query.kayttajaTyyppi === "admin"){
+        kayttajaTyyppiID = 2
+    }
+
+    if(!request.query.username){
+        console.log()
+    }
+
+
+    const kysely = ' INSERT INTO kayttaja (kayttajaTunnus, opintoLinja, salasana, nimi, kayttajaTyyppi) '+
+    'VALUES ("'+request.query.username+'",'+ request.query.opintoLinjaVal+',"'+request.query.password+'","'+
+    request.query.oikeaNimi+'",'+kayttajaTyyppiID+') '
+    
+    connection.query(kysely,(err,results) => {
+        if(err){
+            throw err;
+        }
+        console.log("1 record inserted")
+    })
+    
+    console.log(kysely)
 
 })
 //käyttäjän lisäys linkin painaminen admin.hbs
