@@ -196,6 +196,7 @@ app.post('/lisaaKayttaja',(request,response) => {
             throw err;
         }
         console.log("1 record inserted")
+        response.redirect('admin')
     })
     
     console.log(kysely)
