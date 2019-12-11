@@ -37,6 +37,12 @@ objKompes.push(objKompe1)
 var prosenttiTaulukko = []
 var nimiTaulukko = []
 
+app.use(function(req, res, next) {
+    if (!req.user)
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    next();
+});
+
 
 app.post('/auth', (request, response) => {
     
@@ -227,6 +233,18 @@ app.get('/opintoLinjat',(request,response) => {
     })
 
 })
+
+app.get('/logout', function(req, res){
+    if (req.session){
+        req.session.destroy(function (err) {
+            if (err){
+                console.log(err)
+            }
+            console.log("Kirjauduttu ulos");
+            res.redirect('http://localhost:3002/');
+        });
+    }
+});
 
 //jos ei mikään edeltävistä urlin lopuista niin mennää tänne
 app.get('/',(req,res) => {
