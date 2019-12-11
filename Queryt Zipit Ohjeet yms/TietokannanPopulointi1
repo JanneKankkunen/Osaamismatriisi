@@ -1,5 +1,5 @@
---Toiminta vaatii seuraaviin tauluihin tiedot: kayttaja(opiskelija = kayttajatyyppiID 1, ylläpitäjä = kayttajatyyppiID 2)
---Jos haluaa lisätä uuden linjan ja sille kompetenssit: kompetenssi(vähintään yksi), kurssi(tai liittää edellisiä kursseja siihen)
+-- Toiminta vaatii seuraaviin tauluihin tiedot: kayttaja(opiskelija = kayttajatyyppiID 1, ylläpitäjä = kayttajatyyppiID 2)
+-- Jos haluaa lisätä uuden linjan ja sille kompetenssit: kompetenssi(vähintään yksi), kurssi(tai liittää edellisiä kursseja siihen)
 -- kompetenssinKurssit, kurssisuoritus, linjankompetenssit
 
 INSERT INTO kompetenssi(kompetenssiNimi)
@@ -29,7 +29,7 @@ VALUES ("ympTesti", 2,"1","Ympäristötek. Testi",1);
 
 
 
---kompetenssiIDt: 1=ohjelmointi 2= johtajuus 3= oppimisen taito 4= verkkoliikene 5= kielitaito 6= ympäristötieto 7= aktiivinen toiminta
+-- kompetenssiIDt: 1=ohjelmointi 2= johtajuus 3= oppimisen taito 4= verkkoliikene 5= kielitaito 6= ympäristötieto 7= aktiivinen toiminta
 
 
 INSERT INTO linjanKompetenssit(linjaID, kompetenssiID)
@@ -71,7 +71,10 @@ INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
 VALUES (4,16,2);
 
 
---Admin käyttäjän lisäys
+-- Admin käyttäjän lisäys
 
 INSERT INTO kayttaja (kayttajaTunnus, opintoLinja, salasana, nimi, kayttajaTyyppi)
 VALUES ("admin", 2,"1","Ylläpitäjä",2);
+
+INSERT INTO kurssisuoritus(kayttajaID,kurssiID,arvosana)
+VALUES (5,15,5)
